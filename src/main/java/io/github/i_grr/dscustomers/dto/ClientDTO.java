@@ -1,6 +1,7 @@
 package io.github.i_grr.dscustomers.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import io.github.i_grr.dscustomers.entities.Client;
 
@@ -12,12 +13,16 @@ public class ClientDTO implements Serializable {
 	private String name;
 	private String cpf;
 	private Double income;
+	private Instant birthDate;
+	private Integer children;
 	
-	public ClientDTO(Long id, String name, String cpf, Double income) {
+	public ClientDTO(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.income = income;
+		this.birthDate = birthDate;
+		this.children = children;
 	}
 	
 	public ClientDTO(Client entity) {
@@ -25,6 +30,8 @@ public class ClientDTO implements Serializable {
 		this.name = entity.getName();
 		this.cpf = entity.getCpf();
 		this.income = entity.getIncome();
+		this.birthDate = entity.getBirthDate();
+		this.children = entity.getChildren();
 	}
 
 	public Long getId() {
@@ -57,6 +64,22 @@ public class ClientDTO implements Serializable {
 
 	public void setIncome(Double income) {
 		this.income = income;
+	}
+
+	public Instant getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Instant birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Integer getChildren() {
+		return children;
+	}
+
+	public void setChildren(Integer children) {
+		this.children = children;
 	}
 	
 }
