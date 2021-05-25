@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.i_grr.dscustomers.dto.ClientDTO;
 import io.github.i_grr.dscustomers.entities.Client;
 import io.github.i_grr.dscustomers.repositories.ClientRepository;
+import io.github.i_grr.dscustomers.services.exceptions.DatabaseException;
 import io.github.i_grr.dscustomers.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -54,6 +57,19 @@ public class ClientService {
 			}
 	}
 	
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		}
+			catch (EmptyResultDataAccessException e) {
+				throw new ResourceNotFoundException("Id not found " + id);
+			}
+			catch (DataIntegrityViolationException e) {
+				throw new DatabaseException("Integrity violation");
+			}
+		
+	}
+	
 	public void copyDtoToEntity(ClientDTO dto, Client entity) {
 		entity.setName(dto.getName());
 		entity.setCpf(dto.getCpf());
@@ -61,5 +77,5 @@ public class ClientService {
 		entity.setBirthDate(dto.getBirthDate());
 		entity.setChildren(dto.getChildren());
 	}
-
+	
 }
